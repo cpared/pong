@@ -13,13 +13,13 @@ class Paddle: public Collider {
         void stop(int delta);
         void update_pos(int delta, int dir);
 
-        SDL_Rect* get_pos() override;
+        const SDL_Rect* get_pos() const override;
+        CollisionResult collide(const SDL_Rect& ball_rect) const override;
 
     private:
         int x, y, w, h;
         SDL_Rect rect;
         SDL_Rect left;
-        SDL_Rect middle;
         SDL_Rect right;
         float vx, vy;
         int dir;

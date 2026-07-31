@@ -8,15 +8,21 @@ const float SPEED = 1;
 
 Paddle::Paddle(int x, int y, int w, int h): x(x), y(y), w(w), h(h),
     rect({x, y, w, h}),
-    left({x, y, w / 3, h}),
-    middle({x + (w / 3), y, w - (w / 3) - (w / 3), h }),
-    right({x + w - (w / 3), y, (w / 3), h}),
+    left({x, y, w / 2, h}),
+    right({x + w / 2, y, w / 2, h}),
     vx(0), vy(0),
     dir(0) {}
 
 void Paddle::render(SDL_Renderer* renderer) {
     rect.x = this->x;
     rect.y = this->y;
+
+    left.x = this->x;
+    left.y = this->y;
+
+    right.x = this->x + w / 2;
+    right.y = this->y;
+
     SDL_SetRenderDrawColor(renderer, R, G, B, 255);
     if (SDL_RenderFillRect(renderer, &rect) != 0) {
         std::cout << "Cannot fill rect, ERR: " << SDL_GetError() << std::endl;
@@ -48,6 +54,8 @@ void Paddle::update_pos(int delta, int dir) {
 
     this->x -= delta * this->vx;
     rect.x = this->x;
+    left.x = this->x;
+    right.x = this->x + w / 2;
 }
 
 void Paddle::stop(int delta) {
@@ -68,6 +76,18 @@ void Paddle::stop(int delta) {
     }
 }
 
-SDL_Rect* Paddle::get_pos() {
+const SDL_Rect* Paddle::get_pos() const {
     return &rect;
+}
+
+CollisionResult Paddle::collide(const SDL_Rect& ball_rect) const {
+    if (SDL_HasIntersection(&ball_rect, &left)) {
+        return {true, false, false, true, HorizontalDirection::Left};
+    }
+
+    if (SDL_HasIntersection(&ball_rect, &right)) {
+        return {true, false, false, true, HorizontalDirection::Right};
+    }
+
+    return {};
 }

@@ -13,7 +13,7 @@ class CollisionSystem {
     public:
         explicit CollisionSystem(Ball& ball);
         void add_collider(Collider& collider);
-        void check_collision(int delta);
+        CollisionResult collide(const Collider& collider) const;
         ~CollisionSystem();
 };
 

@@ -7,10 +7,12 @@
 class Block: public Collider {
     public:
         Block();
-        SDL_Rect* get_pos() override;
+        const SDL_Rect* get_pos() const override;
+        CollisionResult collide(const SDL_Rect& ball_rect) const override;
         ~Block();
 
     private:
+        bool reset = false;
         int x, y, w, h;
         SDL_Rect rect;
         bool is_visible;

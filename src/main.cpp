@@ -74,7 +74,7 @@ int main(int args, char *argn[]) {
     int delta = 10;
     SDL_Event event;
 
-    Game game;
+    Game game(config);
     int dir = 0;
 
     // EVENT LOOP
