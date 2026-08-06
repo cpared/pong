@@ -2,16 +2,22 @@
 #include <iostream>
 #include <functional>
 
-const int FRAME = 20;
 Game::Game(const GameConfig& cfg):
-    paddle(800 / 2, 500, 100, 30),
-    ball(800 / 2, 600 / 2, 10, 10),
+    paddle(cfg.paddle,
+           (cfg.window.width - cfg.paddle.width) / 2,
+           cfg.window.height - cfg.paddle.height - cfg.paddle.bottom_offset,
+           cfg.window.width),
+    ball(cfg.ball,
+         (cfg.window.width - cfg.ball.width) / 2,
+         (cfg.window.height - cfg.ball.height) / 2),
 
     // Init walls
-    top_wall(0, 0, 800, 10, false, false, true),
-    buttom_wall(0, 600 - 10, 800, 10, true, false, false),
-    left_wall(0, 0, 10, 600, false, true, false),
-    rigth_wall(800 - 10, 0, 10, 600, false, true, false),
+    top_wall({0, 0, cfg.window.width, cfg.wall.thickness, false, false, true}),
+    buttom_wall({0, cfg.window.height - cfg.wall.thickness,
+                 cfg.window.width, cfg.wall.thickness, true, false, false}),
+    left_wall({0, 0, cfg.wall.thickness, cfg.window.height, false, true, false}),
+    rigth_wall({cfg.window.width - cfg.wall.thickness, 0,
+                cfg.wall.thickness, cfg.window.height, false, true, false}),
 
     colliders {
         &paddle,

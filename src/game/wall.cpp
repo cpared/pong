@@ -1,11 +1,11 @@
 #include "wall.hpp"
 
-Wall::Wall(int x, int y , int w, int h, bool reset, bool change_x, bool change_y):
-    reset(reset),
-    change_x(change_x),
-    change_y(change_y),
-    x(x), y(y), w(w), h(h),
-    rect({x, y, w, h}) {}
+Wall::Wall(const WallConstConfig& cfg):
+    reset(cfg.reset),
+    change_x(cfg.change_x),
+    change_y(cfg.change_y),
+    x(cfg.x), y(cfg.y), w(cfg.w), h(cfg.h),
+    rect({cfg.x, cfg.y, cfg.w, cfg.h}) {}
 
 const SDL_Rect* Wall::get_pos() const {
     return &rect;

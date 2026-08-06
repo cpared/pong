@@ -20,12 +20,18 @@ struct PaddleConfig {
     int width;
     int height;
     float speed;
+    int bottom_offset;
+};
+
+struct WallConfig {
+    int thickness;
 };
 
 struct GameConfig {
     WindowConfig window;
     BallConfig ball;
     PaddleConfig paddle;
+    WallConfig wall;
 };
 
 

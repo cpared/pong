@@ -4,14 +4,15 @@
 const Uint8 R = 0;
 const Uint8 G = 0;
 const Uint8 B = 0;
-const float SPEED = 1;
-
-Paddle::Paddle(int x, int y, int w, int h): x(x), y(y), w(w), h(h),
-    rect({x, y, w, h}),
-    left({x, y, w / 2, h}),
-    right({x + w / 2, y, w / 2, h}),
+Paddle::Paddle(const PaddleConfig& cfg, int x, int y, int window_width):
+    x(x), y(y), w(cfg.width), h(cfg.height),
+    rect({x, y, cfg.width, cfg.height}),
+    left({x, y, cfg.width / 2, cfg.height}),
+    right({x + cfg.width / 2, y, cfg.width / 2, cfg.height}),
     vx(0), vy(0),
-    dir(0) {}
+    speed(cfg.speed),
+    dir(0),
+    window_width(window_width) {}
 
 void Paddle::render(SDL_Renderer* renderer) {
     rect.x = this->x;
@@ -32,12 +33,12 @@ void Paddle::render(SDL_Renderer* renderer) {
 
 void Paddle::move_left() {
     dir = -1;
-    this->vx = SPEED;
+    this->vx = speed;
 }
 
 void Paddle::move_right() {
     dir = 1;
-    this->vx = -SPEED;
+    this->vx = -speed;
 }
 
 void Paddle::update_pos(int delta, int dir) {
@@ -49,8 +50,8 @@ void Paddle::update_pos(int delta, int dir) {
 
     if (this->x <= 0)
         this->x = 0;
-    if (this->x >= 800 - w)
-        this->x = 800 - w;
+    if (this->x >= window_width - w)
+        this->x = window_width - w;
 
     this->x -= delta * this->vx;
     rect.x = this->x;

@@ -4,13 +4,12 @@
 const Uint8 R = 0;
 const Uint8 G = 0;
 const Uint8 B = 0;
-const float SPEED = 0.2;
-
-Ball::Ball(int x, int y , int w, int h):
-    x(x), y(y), w(w), h(h),
+Ball::Ball(const BallConfig& cfg, int x, int y):
+    x(x), y(y), w(cfg.width), h(cfg.height),
     init_x(x), init_y(y),
-    rect({x, y, w, h}),
-    vx(0), vy(SPEED) {}
+    rect({x, y, cfg.width, cfg.height}),
+    vx(0), vy(cfg.speed),
+    speed(cfg.speed) {}
 
 void Ball::render(SDL_Renderer* renderer) {
     rect.y = this->y;
@@ -24,15 +23,15 @@ void Ball::render(SDL_Renderer* renderer) {
 
 void Ball::on_collide(int delta, const CollisionResult& collision) {
     if (collision.horizontal == HorizontalDirection::Left) {
-        this->vx = -SPEED;
+        this->vx = -speed;
         this->x += delta * this->vx;
         rect.x = this->x;
     } else if (collision.horizontal == HorizontalDirection::Right) {
-        this->vx = SPEED;
+        this->vx = speed;
         this->x += delta * this->vx;
         rect.x = this->x;
     } else if (collision.reverse_x) {
-        if (this->vx == 0) this->vx = SPEED;
+        if (this->vx == 0) this->vx = speed;
         this->vx *= -1;
 
         this->x += delta * this->vx;
@@ -61,7 +60,7 @@ void Ball::reset() {
     rect.x = this->init_x;
     rect.y = this->init_y;
     this->vx = 0;
-    this->vy = SPEED;
+    this->vy = speed;
 }
 
 const SDL_Rect* Ball::get_pos() const {

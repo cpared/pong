@@ -4,9 +4,19 @@
 #include <SDL2/SDL.h>
 #include "./collision/collider.hpp"
 
+struct WallConstConfig {
+    int x;
+    int y;
+    int w;
+    int h;
+    bool reset;
+    bool change_x;
+    bool change_y;
+};
+
 class Wall: public Collider {
     public:
-        Wall(int x, int y , int w, int h, bool reset, bool change_x, bool change_y);
+        explicit Wall(const WallConstConfig& cfg);
         const SDL_Rect* get_pos() const override;
         CollisionResult collide(const SDL_Rect& ball_rect) const override;
 

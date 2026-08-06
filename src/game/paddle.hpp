@@ -3,10 +3,11 @@
 
 #include <SDL2/SDL.h>
 #include "./collision/collider.hpp"
+#include "../config/game_config.hpp"
 
 class Paddle: public Collider {
     public:
-        Paddle(int x, int y , int w, int h);
+        Paddle(const PaddleConfig& cfg, int x, int y, int window_width);
         void render(SDL_Renderer* renderer);
         void move_left();
         void move_right();
@@ -22,7 +23,9 @@ class Paddle: public Collider {
         SDL_Rect left;
         SDL_Rect right;
         float vx, vy;
+        float speed;
         int dir;
+        int window_width;
 };
 
 #endif  // SRC_GAME_PADDLE_HPP_

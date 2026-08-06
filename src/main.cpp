@@ -39,17 +39,24 @@ GameConfig load_game_config(const std::string& path) {
     int paddle_width = j.at("paddle").at("width").get<int>();
     int paddle_height = j.at("paddle").at("height").get<int>();
     float paddle_speed = j.at("paddle").at("speed").get<float>();
+    int paddle_bottom_offset = j.at("paddle").at("bottom_offset").get<int>();
 
     PaddleConfig paddleCfg = {
         paddle_width,
         paddle_height,
         paddle_speed,
+        paddle_bottom_offset,
+    };
+
+    WallConfig wallCfg = {
+        j.at("wall").at("thickness").get<int>(),
     };
 
     return GameConfig{
         windowCfg,
         ballCfg,
         paddleCfg,
+        wallCfg,
     };
 }
 

@@ -13,6 +13,10 @@
   "paddle": {
     "width": 100,
     "height": 30,
-    "speed": 1.0
+    "speed": 1.0,
+    "bottom_offset": 70
+  },
+  "wall": {
+    "thickness": 10
   }
 }
